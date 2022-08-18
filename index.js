@@ -9,5 +9,6 @@ const PORT = process.env.PORT ?? 3000;
 const server = createServer(app);
 
 server.listen(PORT, () => {
+    console.log(`Listen on http://localhost:${PORT}`);
     debug(`http://localhost:${PORT}`);
 });
