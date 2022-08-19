@@ -11,7 +11,7 @@ const router = express.Router();
 
 router
     .route('/users')
-    .get(controllerJwt, controllerHandler(controller.getAll));
+    .get(controllerHandler(controller.getAll));
 
 router
     .route('/register')
