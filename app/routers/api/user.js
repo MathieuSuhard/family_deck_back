@@ -11,7 +11,7 @@ const router = express.Router();
 
 router
     .route('/user')
-    .get(controllerJwt, controllerHandler(controller.getAll));
+    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll));
 
 router
     .route('/register')
