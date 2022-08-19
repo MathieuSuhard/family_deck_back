@@ -4,7 +4,9 @@ const User = require('../../models/user');
 
 module.exports = {
     async getAll(_, res) {
+        console.log('test');
         const users = await User.findAll();
+        console.log('users');
         return res.json(users);
     },
 
