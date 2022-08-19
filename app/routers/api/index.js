@@ -8,9 +8,9 @@ const { ApiError } = require('../../helpers/errorHandler');
 
 const router = express.Router();
 
-router.all('/', apiController.home);
-
 router.use('/user', userRouter);
+
+router.all('/', apiController.home);
 
 router.use(() => {
     throw new ApiError('API route not found', { statusCode: 404 });
