@@ -10,8 +10,8 @@ const controllerJwt = require('../../middleware/jwt');
 const router = express.Router();
 
 router
-    .route('/test')
-    .get(controllerHandler(controller.getAll));
+    .route('/users')
+    .get(controllerJwt, controllerHandler(controller.getAll));
 
 router
     .route('/register')
