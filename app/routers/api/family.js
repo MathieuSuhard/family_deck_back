@@ -22,3 +22,4 @@ router
     .route('/:id/member')
     .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
     .post(controllerHandler(controller.create));
+

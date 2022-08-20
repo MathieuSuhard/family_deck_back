@@ -1,4 +1,5 @@
 const userController = require('./user');
+const roleController = require('./role');
 
 const apiController = {
     home(req, res) {
@@ -9,4 +10,4 @@ const apiController = {
     },
 };
 
-module.exports = { apiController, userController };
+module.exports = { apiController, userController, roleController };

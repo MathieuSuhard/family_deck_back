@@ -1,33 +1,37 @@
 const bcrypt = require('bcrypt');
+const userDatamapper = require('../../models/user');
+const familyDatamapper = require('../../models/family');
+const roleDatamapper = require('../../models/role');
+// const { ApiError } = require('../../helpers/errorHandler');
 const jwtToken = require('../../middleware/jwt');
-const User = require('../../models/user');
 
 module.exports = {
     async getAll(_, res) {
-        console.log('test');
-        const users = await User.findAll();
-        console.log('users');
+        const users = await userDatamapper.findAll();
         return res.json(users);
     },
-
+    /* je la il maque les different champ a traiter */
     async register(req, res) {
         const {
+            familyName,
             lastname,
             firstname,
+            roleId,
             email,
             confirmEmail,
             password,
             confirmPassword,
         } = req.body;
-        if (
-            !lastname
-      || !firstname
-      || !email
-      || !confirmEmail
-      || !password
-      || !confirmPassword
+        if (!familyName || !lastname || !firstname
+            || !roleId || !email || !confirmEmail || !password
+            || !confirmPassword
         ) {
             res.status(401).json({ msg: 'Tous les champs sont requis !' });
+            return;
+        }
+        const family = await familyDatamapper.findOneName(familyName);
+        if (family) {
+            res.status(401).json({ msg: 'Le nom de famille est déjà utilisé !' });
             return;
         }
 
@@ -41,19 +45,19 @@ module.exports = {
             return;
         }
 
-        const user = await User.findOneEmail(email);
+        const user = await userDatamapper.findOneEmail(email);
 
         if (user) {
             res.status(401).json({ msg: 'Cet utilisateur existe déjà' });
             return;
         }
-
         delete req.body.confirmPassword;
+        const newFamily = await familyDatamapper.create({ familyName });
 
         try {
             const hashPassword = await bcrypt.hash(password, 10);
 
-            const newUser = await User.create({
+            const newUser = await userDatamapper.create({
                 lastname,
                 firstname,
                 email,
@@ -61,8 +65,22 @@ module.exports = {
                 username: email,
             });
             const token = jwtToken.createToken({ user });
-            console.log(newUser);
-            res.json({ msg: 'Utilisateur créer', token });
+            console.log('family  id', newFamily.family_id);
+            console.log('user  id', newUser);
+            console.log(roleId);
+            const familyId = newFamily.family_id;
+            const memberId = newUser.member_id;
+            const AddMemberOfFamily = await familyDatamapper.AddMemberOfFamily({
+                familyId,
+                memberId,
+            });
+            const AddRoleOfMember = await roleDatamapper.AddRoleOfMember({
+                memberId,
+                roleId,
+            });
+            res.json({
+                msg: 'Utilisateur et famille créer', token, AddRoleOfMember, AddMemberOfFamily,
+            });
         } catch (err) {
             res.json(err);
         }
@@ -70,7 +88,13 @@ module.exports = {
 
     async login(req, res) {
         const { email, password } = req.body;
-        const user = await User.findOneEmail(email);
+        if (!email
+      || !password
+        ) {
+            res.status(401).json({ msg: 'Tous les champs sont requis !' });
+            return;
+        }
+        const user = await userDatamapper.findOneEmail(email);
         if (!user) {
             res.status(401).json({ msg: 'utilisateur introuvable' });
             return;

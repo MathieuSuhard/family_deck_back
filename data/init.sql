@@ -29,7 +29,7 @@ CREATE TABLE "member" (
 
 CREATE TABLE "member_data" (
   "member_data_id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  "member_data_date_birth" DATE FORMAT 'dd.mm.yyyy',
+  "member_data_date_birth" DATE,
   "member_data_size" SMALLINT,
   "member_data_top_size" TEXT,
   "member_data_bottom_size" TEXT,
@@ -81,27 +81,19 @@ CREATE TABLE "item" (
 -- table jonction family / member
 
 CREATE TABLE "family_has_member" (
-  "family_has_member_id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   "family_has_member_family_id" INTEGER NOT NULL REFERENCES "family"("family_id") ON DELETE CASCADE,
   "family_has_member_member_id" INTEGER NOT NULL REFERENCES "member"("member_id") ON DELETE CASCADE,
-  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
--- table jonction member / todolist_
-
-CREATE TABLE "member_has_todolist" (
-   "member_has_todolist_Id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-   "family_has_member_member_id" INTEGER NOT NULL REFERENCES "family"("family_id") ON DELETE CASCADE,
-   "family_has_member_todolist_id" INTEGER NOT NULL REFERENCES "todolist"("todolist_id") ON DELETE CASCADE,
-   "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  PRIMARY KEY ("family_has_member_family_id", "family_has_member_member_id")
 );
 
 -- table jonction member / role
 
 CREATE TABLE "member_has_role" (
-    "member_has_role_id" INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     "member_has_role_member_id" INTEGER NOT NULL REFERENCES "member"("member_id") ON DELETE CASCADE,
     "member_has_role_role_id" INTEGER NOT NULL REFERENCES "role"("role_id") ON DELETE CASCADE,
-    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW()
+    "created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    PRIMARY KEY ("member_has_role_member_id", "member_has_role_role_id")
 );
 
 

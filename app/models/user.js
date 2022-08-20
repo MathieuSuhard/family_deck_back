@@ -1,6 +1,7 @@
 const client = require('../config/db');
 
 module.exports = {
+
     async findAll() {
         const result = await client.query('SELECT * FROM member');
         return result.rows;
@@ -43,4 +44,5 @@ module.exports = {
 
         return savedMember.rows[0];
     },
+
 };

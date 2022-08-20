@@ -28,10 +28,6 @@ INSERT INTO "member_data"("member_data_date_birth", "member_data_size", "member_
 ('25/01/2000', 160, 'xxl', '40', 46, 'Oclock', 'rien', 2),
 ('25/01/1000', 100, 'xxxl', '50', 45, 'la baron', 'rien', 3);
 
-INSERT INTO "role"("role_label", "role_icon") VALUES 
-('papa', '/icone/papa.png'),
-('maman', '/icone/maman.png'),
-('enfant', '/icone/enfant.png');
 
 INSERT INTO "todolist"("todolist_title", "todolist_color", "todolist_position", "todolist_status", "member_id") VALUES 
 ('post1', '#ff00ff', 1, FALSE, 1),

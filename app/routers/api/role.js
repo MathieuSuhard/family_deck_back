@@ -6,15 +6,18 @@ const controllerHandler = require('../../helpers/controllerHandler');
 
 const controllerJwt = require('../../middleware/jwt');
 
+// Création router express
 const router = express.Router();
 
 router
     .route('/')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .post(controllerHandler(controller.create));
+    .get(controllerHandler(controller.getAll))
+    .post(controllerJwt.ckeckToken, controllerHandler(controller.create));
 
 router
     .route('/:id')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.read))
+    .get(controllerJwt.ckeckToken, controllerHandler(controller.getOne))
     .patch(controllerHandler(controller.update))
-    .delete(controllerHandler(controller.delete));
+    .delete(controllerJwt.ckeckToken, controllerHandler(controller.delete));
+
+module.exports = router;
