@@ -1,0 +1,4 @@
+%syntax-version=1.0.0
+%project=family_deck
+
+init_bdd 2022-08-20T16:27:05Z mathieu suhard <student@teleporter> # mise en place de la bdd

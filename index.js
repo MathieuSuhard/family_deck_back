@@ -9,5 +9,6 @@ const PORT = process.env.PORT ?? 8080;
 const server = createServer(app);
 
 server.listen(PORT, () => {
-  debug(`http://localhost:${PORT}`);
+    console.log(`serveur ready on http://localhost:${PORT}`);
+    debug(`http://localhost:${PORT}`);
 });

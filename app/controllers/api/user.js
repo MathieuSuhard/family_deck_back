@@ -48,7 +48,7 @@ module.exports = {
         const user = await userDatamapper.findOneEmail(email);
 
         if (user) {
-            res.status(401).json({ msg: 'Cet utilisateur existe déjà' });
+            res.status(401).json({ msg: 'Cet utilisateur existe déjà !' });
             return;
         }
         delete req.body.confirmPassword;
@@ -70,16 +70,16 @@ module.exports = {
             console.log(roleId);
             const familyId = newFamily.family_id;
             const memberId = newUser.member_id;
-            const AddMemberOfFamily = await familyDatamapper.AddMemberOfFamily({
+            await familyDatamapper.AddMemberOfFamily({
                 familyId,
                 memberId,
             });
-            const AddRoleOfMember = await roleDatamapper.AddRoleOfMember({
+            await roleDatamapper.AddRoleOfMember({
                 memberId,
                 roleId,
             });
             res.json({
-                msg: 'Utilisateur et famille créer', token, AddRoleOfMember, AddMemberOfFamily,
+                msg: 'Utilisateur et famille créer', token, familyId, memberId,
             });
         } catch (err) {
             res.json(err);
@@ -87,14 +87,14 @@ module.exports = {
     },
 
     async login(req, res) {
-        const { email, password } = req.body;
-        if (!email
+        const { userName, password } = req.body;
+        if (!userName
       || !password
         ) {
             res.status(401).json({ msg: 'Tous les champs sont requis !' });
             return;
         }
-        const user = await userDatamapper.findOneEmail(email);
+        const user = await userDatamapper.findOneEmail(userName);
         if (!user) {
             res.status(401).json({ msg: 'utilisateur introuvable' });
             return;
@@ -103,7 +103,7 @@ module.exports = {
         const goodPassword = await bcrypt.compare(password, user.member_password);
 
         if (!goodPassword) {
-            res.status(401).json({ msg: 'Email ou mot de passe incorrect' });
+            res.status(401).json({ msg: 'Username ou mot de passe incorrect' });
             return;
         }
 
