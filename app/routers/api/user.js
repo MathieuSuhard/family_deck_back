@@ -97,7 +97,7 @@ router
     .post(controllerHandler(controller.register));
 
 /**
- * POST /api/user/auht
+ * POST /api/user/auth
  * @summary endpoint de connexion d'un membre d'une famille déjà crée.
  * @tags user
  * @param {object} request.body.required - infos de connexion d'un membre.
