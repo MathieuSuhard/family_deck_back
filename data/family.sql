@@ -1,6 +1,8 @@
 BEGIN;
 
-DROP TABLE IF EXISTS "family", "member", "member_data", "role", "todolist", "item", "family_has_member", "member_has_todolist", "member_has_role" ;
+DROP TABLE IF EXISTS "family_has_member", "family_has_todolist", "member_has_role" ;
+
+DROP TABLE IF EXISTS "family", "member", "member_data", "role", "todolist", "item";
 
 CREATE TABLE "family" (
   "family_id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,

@@ -10,20 +10,20 @@ module.exports = {
         const users = await userDatamapper.findAll();
         return res.json(users);
     },
-    /* je la il maque les different champ a traiter */
     async register(req, res) {
         const {
             familyName,
             lastname,
             firstname,
             roleId,
+            dateBirth,
             email,
             confirmEmail,
             password,
             confirmPassword,
         } = req.body;
         if (!familyName || !lastname || !firstname
-            || !roleId || !email || !confirmEmail || !password
+            || !roleId || !dateBirth || !email || !confirmEmail || !password
             || !confirmPassword
         ) {
             res.status(401).json({ msg: 'Tous les champs sont requis !' });
@@ -65,11 +65,12 @@ module.exports = {
                 username: email,
             });
             const token = jwtToken.createToken({ user });
-            console.log('family  id', newFamily.family_id);
-            console.log('user  id', newUser);
-            console.log(roleId);
             const familyId = newFamily.family_id;
             const memberId = newUser.member_id;
+            /* await familyDatamapper.AddBirthOfMemberData({
+                memberId,
+                dateBirth,
+            }); */
             await familyDatamapper.AddMemberOfFamily({
                 familyId,
                 memberId,

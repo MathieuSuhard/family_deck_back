@@ -1,5 +1,6 @@
 const userController = require('./user');
 const roleController = require('./role');
+const todolistController = require('./todolist');
 
 const apiController = {
     home(req, res) {
@@ -10,4 +11,4 @@ const apiController = {
     },
 };
 
-module.exports = { apiController, userController, roleController };
+module.exports = { apiController, userController, roleController, todolistController };
