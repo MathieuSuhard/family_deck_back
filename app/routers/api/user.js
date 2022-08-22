@@ -58,7 +58,8 @@ router
  *    "familyName": "famille 4",
  *    "lastname": "gdgf",
  *    "firstname": "dgfg",
- *    "roleId": 1,
+ *    "roleId": 1
+ *    "dateBirth": "25/01/1980",
  *    "email": "dddl11@free.fr",
  *    "confirmEmail": "dddl11@free.fr",
  *    "password": "test",
