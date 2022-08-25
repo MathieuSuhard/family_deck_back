@@ -7,6 +7,8 @@ const controllerHandler = require('../../helpers/controllerHandler');
 
 const controllerJwt = require('../../middleware/jwt');
 
+// const controllerJwt = require('../../middleware/jwt');
+
 // Création router express
 const router = express.Router();
 
@@ -23,26 +25,12 @@ const router = express.Router();
  *    	"role_icon": "/icone/papa.png",
  *    	"created_at": "2022-08-20T06:51:06.985Z",
  *    	"updated_at": null
- *    },
- *    {
- *    	"role_id": 2,
- *    	"role_label": "maman",
- *    	"role_icon": "/icone/maman.png",
- *    	"created_at": "2022-08-20T06:51:06.985Z",
- *    	"updated_at": null
- *    },
- *    {
- *    	"role_id": 3,
- *    	"role_label": "enfant",
- *    	"role_icon": "/icone/enfant.png",
- *    	"created_at": "2022-08-20T06:51:06.985Z",
- *    	"updated_at": null
  *    }
  * ]
  */
 router
     .route('/')
-    .get(controllerHandler(controller.getAll))
+    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
     .post(controllerJwt.ckeckToken, controllerHandler(controller.create));
 
 /**
@@ -63,7 +51,7 @@ router
  */
 router
     .route('/:id')
-    .get(controllerHandler(controller.getOne))
+    .get(controllerJwt.ckeckToken, controllerHandler(controller.getOne))
     .patch(controllerJwt.ckeckToken, controllerHandler(controller.update))
     .delete(controllerJwt.ckeckToken, controllerHandler(controller.delete));
 

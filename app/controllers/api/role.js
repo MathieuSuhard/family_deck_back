@@ -34,7 +34,7 @@ module.exports = {
             icon,
         });
         res.json({
-            msg: 'Role créer', newRole,
+            msg: 'Role créé', newRole,
         });
     },
 
@@ -45,10 +45,7 @@ module.exports = {
         } = req.body;
         const { id } = req.params;
 
-        console.log('body', req.body);
-
         const role = await roleDatamapper.findByPk(id);
-        console.log('role', role);
         if (!role) {
             throw new ApiError('role not found', { statusCode: 401 });
         }
@@ -58,7 +55,7 @@ module.exports = {
             icon,
         });
         return res.json({
-            msg: 'Role modifier', updateRole,
+            msg: 'Role modifié !', updateRole,
         });
     },
     async delete(req, res) {
@@ -67,7 +64,7 @@ module.exports = {
             throw new ApiError('role not found', { statusCode: 404 });
         }
         return res.json({
-            msg: 'Role supprimé', deleteRole,
+            msg: 'Role supprimé !', deleteRole,
         });
     },
 

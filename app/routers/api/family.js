@@ -11,15 +11,14 @@ const router = express.Router();
 router
     .route('/')
     .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .post(controllerHandler(controller.create));
+    .post(controllerJwt.ckeckToken, controllerHandler(controller.create));
 
 router
     .route('/:id')
     .get(controllerJwt.ckeckToken, controllerHandler(controller.read))
-    .patch(controllerHandler(controller.update));
+    .patch(controllerJwt.ckeckToken, controllerHandler(controller.update));
 
 router
     .route('/:id/member')
     .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .post(controllerHandler(controller.create));
-
+    .post(controllerJwt.ckeckToken, controllerHandler(controller.create));

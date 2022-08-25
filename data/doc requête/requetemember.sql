@@ -8,3 +8,5 @@ SELECT member_lasname FROM "member"
 
 SELECT member_firstname FROM "member"
 
+SELECT * FROM "member"
+

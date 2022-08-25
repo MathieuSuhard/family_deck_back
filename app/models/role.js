@@ -54,7 +54,6 @@ module.exports = {
         return savedRole.rows[0];
     },
     async update(update) {
-        console.log(update.label);
         const updateRole = await client.query(
             `
             UPDATE role
@@ -75,18 +74,31 @@ module.exports = {
         return result.rows[0];
     },
 
-    async AddRoleOfMember(AddRoleOfMember) {
-        const RoleOfMember = await client.query(
+    async AddRoleOfMember(RoleOfMember) {
+        const newRoleOfMember = await client.query(
             `
-                INSERT INTO member_has_role
+            INSERT INTO member_has_role
                 (member_has_role_member_id, member_has_role_role_id) VALUES
                 ($1, $2) RETURNING *
             `,
-            [AddRoleOfMember.memberId,
-                AddRoleOfMember.roleId,
+            [RoleOfMember.memberId,
+                RoleOfMember.roleId,
             ],
         );
 
-        return RoleOfMember.rows[0];
+        return newRoleOfMember.rows[0];
+    },
+    async udpadteRoleofMember(UroleOfMember) {
+        const newUroleofMember = await client.query(
+            `
+                UPDATE member_has_role
+                SET member_has_role_role_id = $1,
+                WHERE member_has_role_role_id = $2 RETURNING *
+            `,
+            [UroleOfMember.memberId,
+                UroleOfMember.roleId,
+            ],
+        );
+        return newUroleofMember.rows[0];
     },
 };

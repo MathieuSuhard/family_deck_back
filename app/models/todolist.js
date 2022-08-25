@@ -9,7 +9,15 @@ module.exports = {
 
     async findByPk(todolistId) {
         const result = await client.query('SELECT * FROM todolist WHERE todolist_id = $1', [todolistId]);
+        console.log('todo', result);
+        if (result.rowCount === 0) {
+            return null;
+        }
+        return result.rows[0];
+    },
 
+    async findOneTilteOfFamily(familyId, title) {
+        const result = await client.query('SELECT * FROM todolist_of_family WHERE family_id = $1 and todolist_title = $2;', [familyId, title]);
         if (result.rowCount === 0) {
             return null;
         }
@@ -17,8 +25,7 @@ module.exports = {
     },
 
     async findByPkAllItems(todolistId) {
-        const result = await client.query('SELECT todolist.*, item.* FROM item JOIN todolist ON item.todolist_id = todolist.todolist_id WHERE todolist.todolist_id = $1', [todolistId]);
-
+        const result = await client.query('SELECT * FROM item_of_todolist WHERE item_todolist_id = $1', [todolistId]);
         if (result.rowCount === 0) {
             return null;
         }
@@ -26,19 +33,18 @@ module.exports = {
     },
 
     async findByFamily(familyId) {
-        const result = await client.query('SELECT * FROM todolist WHERE todolist_id = $1', [familyId]);
-
-        if (result.rowCount === 0) {
+        const todolists = await client.query('SELECT * FROM todolist_of_family WHERE family_id = $1', [familyId]);
+        if (todolists.rowCount === 0) {
             return null;
         }
-        return result.rows;
+        return todolists.rows;
     },
 
     async create(todolist) {
         const savedTodolist = await client.query(
             `
                 INSERT INTO todolist
-                ("todolist_title", "todolist_color", "member_id") VALUES
+                ("todolist_title", "todolist_color", "todolist_member_id") VALUES
                 ($1, $2, $3) RETURNING *
             `,
             [todolist.title, todolist.color, todolist.memberId],
@@ -46,24 +52,22 @@ module.exports = {
 
         return savedTodolist.rows[0];
     },
-    /* je suis la */
+
     async update(update) {
         const updateTodolist = await client.query(
             `
             UPDATE todolist
             SET todolist_title = $1,
-             todolist_color = $2,
-             todolist_position = $3,
-             todolist_status = $4,
-            WHERE todolist_id = $5 RETURNING *
+             todolist_color = $2
+            WHERE todolist_id = $3 RETURNING *
             `,
-            [update.title, update.icon, update.id],
+            [update.title, update.color, update.id],
         );
         return updateTodolist.rows[0];
     },
 
-    async delete(roleId) {
-        const result = await client.query('DELETE FROM role WHERE role_id = $1 RETURNING *', [roleId]);
+    async delete(todolistId) {
+        const result = await client.query('DELETE FROM todolist WHERE todolist_id = $1 RETURNING *', [todolistId]);
 
         if (result.rowCount === 0) {
             return null;
@@ -71,18 +75,17 @@ module.exports = {
         return result.rows[0];
     },
 
-    async AddRoleOfMember(AddRoleOfMember) {
-        const RoleOfMember = await client.query(
+    async AddTodolistOfFamily(TodolistOfFamily) {
+        const newTodolistOfFamily = await client.query(
             `
-                INSERT INTO member_has_role
-                (member_has_role_member_id, member_has_role_role_id) VALUES
+                INSERT INTO family_has_todolist
+                (family_has_todolist_family_id, family_has_todolist_todolist_id) VALUES
                 ($1, $2) RETURNING *
             `,
-            [AddRoleOfMember.memberId,
-                AddRoleOfMember.roleId,
+            [TodolistOfFamily.familyId,
+                TodolistOfFamily.todolistId,
             ],
         );
-
-        return RoleOfMember.rows[0];
+        return newTodolistOfFamily.rows[0];
     },
 };

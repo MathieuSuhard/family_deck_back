@@ -1,6 +1,9 @@
+/* eslint-disable max-len */
 const userController = require('./user');
 const roleController = require('./role');
+const memberController = require('./member');
 const todolistController = require('./todolist');
+const itemController = require('./item');
 
 const apiController = {
     home(req, res) {
@@ -11,4 +14,6 @@ const apiController = {
     },
 };
 
-module.exports = { apiController, userController, roleController, todolistController };
+module.exports = {
+    apiController, userController, roleController, memberController, todolistController, itemController,
+};

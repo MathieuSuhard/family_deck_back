@@ -4,7 +4,11 @@ const userRouter = require('./user');
 
 const roleRouter = require('./role');
 
+const memberRouter = require('./member');
+
 const todolistRouter = require('./todolist');
+
+const itemRouter = require('./item');
 
 const { apiController } = require('../../controllers/api');
 
@@ -16,7 +20,11 @@ router.use('/role', roleRouter);
 
 router.use('/user', userRouter);
 
+router.use('/member', memberRouter);
+
 router.use('/todolist', todolistRouter);
+
+router.use('/item', itemRouter);
 
 router.all('/', apiController.home);
 

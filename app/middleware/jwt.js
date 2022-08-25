@@ -38,5 +38,4 @@ module.exports = {
             throw new ApiError('Missing token');
         }
     },
-
 };

@@ -1,15 +1,18 @@
+/* eslint-disable no-unused-vars */
 const bcrypt = require('bcrypt');
 const userDatamapper = require('../../models/user');
 const familyDatamapper = require('../../models/family');
-const roleDatamapper = require('../../models/role');
+const memberDatamapper = require('../../models/memberdata');
 // const { ApiError } = require('../../helpers/errorHandler');
 const jwtToken = require('../../middleware/jwt');
 
 module.exports = {
+
     async getAll(_, res) {
         const users = await userDatamapper.findAll();
         return res.json(users);
     },
+
     async register(req, res) {
         const {
             familyName,
@@ -67,20 +70,34 @@ module.exports = {
             const token = jwtToken.createToken({ user });
             const familyId = newFamily.family_id;
             const memberId = newUser.member_id;
-            /* await familyDatamapper.AddBirthOfMemberData({
-                memberId,
-                dateBirth,
-            }); */
+
             await familyDatamapper.AddMemberOfFamily({
                 familyId,
                 memberId,
-            });
-            await roleDatamapper.AddRoleOfMember({
-                memberId,
                 roleId,
             });
+            await memberDatamapper.creatOfBirth({
+                memberId,
+                dateBirth,
+            });
+
+            const userNew = await familyDatamapper.membersByFamily('member_id', memberId);
+
+            const newfamily = {
+                familyId: userNew.family_id,
+                familyName: userNew.family_name,
+            };
+            const member = {
+                memberid: userNew.member_id,
+                lastname: userNew.member_lastname,
+                firstname: userNew.member_firstname,
+                roleId: userNew.role_id,
+                roleLabel: userNew.role_label,
+                roleIcon: userNew.role_icon,
+            };
+
             res.json({
-                msg: 'Utilisateur et famille créer', token, familyId, memberId,
+                msg: 'Utilisateur et famille créés', token, newfamily, member,
             });
         } catch (err) {
             res.json(err);
@@ -95,7 +112,7 @@ module.exports = {
             res.status(401).json({ msg: 'Tous les champs sont requis !' });
             return;
         }
-        const user = await userDatamapper.findOneEmail(userName);
+        const user = await familyDatamapper.membersByFamily('member_username', userName);
         if (!user) {
             res.status(401).json({ msg: 'utilisateur introuvable' });
             return;
@@ -110,12 +127,19 @@ module.exports = {
 
         const token = jwtToken.createToken({ user });
 
+        const family = {
+            familyId: user.family_id,
+            familyName: user.family_name,
+        };
         const member = {
-            id: user.member_id,
+            memberid: user.member_id,
             lastname: user.member_lastname,
             firstname: user.member_firstname,
+            roleId: user.role_id,
+            roleLabel: user.role_label,
+            roleIcon: user.role_icon,
         };
-        res.json({ token, member });
+        res.json({ token, member, family });
     },
 
 };

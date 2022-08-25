@@ -39,7 +39,9 @@ module.exports = {
                 (member_lastname, member_firstname, member_email, member_password, member_username) VALUES
                 ($1, $2, $3, $4, $5) RETURNING *
             `,
-            [member.lastname, member.firstname, member.email, member.password, member.username],
+            [member.lastname, member.firstname,
+                member.emai,
+                member.password, member.username],
         );
 
         return savedMember.rows[0];

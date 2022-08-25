@@ -1,3 +1,6 @@
+/* eslint-disable max-len */
+/* eslint-disable no-tabs */
+/* eslint-disable no-unused-vars */
 const express = require('express');
 
 const { memberController: controller } = require('../../controllers/api');
@@ -7,35 +10,168 @@ const controllerHandler = require('../../helpers/controllerHandler');
 const controllerJwt = require('../../middleware/jwt');
 
 const router = express.Router();
+/**
+ * POST /api/member/
+ * @summary endpoint d'ajout d un membre à une famille
+ * @tags member
+ * @param {object} request.body.required - infos de creation d'un membre
+ * @return {object} 200 - Success response - application/json
+ * @return {object} 401 - Bad request response - application/json
+ * @example request - example
+ * {
+ *			"familyId" : 1,
+ *			"lastname": "mathieu",
+ *          "username": "mathieu",
+ *          "roleId": 1,
+ *          "datebirth": "01/01/2000",
+ *          "password": "test",
+ *          "confirmPassword": "test",
+ *          "topsize": "L",
+ *          "bottomsize": "M",
+ *          "shoesize": "36",
+ *          "size": "150",
+ *   		"school": "notredame",
+ *			"hobbies": "foot"
+ *}
+ * @example response - 200 - example success response
+ *  {
+ *    "msg": " Ajout du nouveau membre !"
+ *  }
+ * @example response - 401 - example error response champs
+ * {
+ *   "msg": "Tous les champs sont requis !"
+ * }
+ * @example response - 401 - example error response password
+ * {
+ *   "msg": "Les deux mots de passes ne sont pas indentiques !"
+ * }
+ */
+router
+    .route('/')
+    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
+    .post(controllerJwt.ckeckToken, controllerHandler(controller.create));
 
-// router CRUD  membre par ID
-
+/**
+ * GET /api/member/:id
+ * @summary endpoint pour afficher un membre par son ID sécurisé pour un TOKEN.
+ * @tags member
+ * @param {string} token.query.required - token retourné par l'api si le user
+ * à le droit de se connecter
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - success response example
+ * [
+ * {
+ *	"member_id": 1,
+ *	"member_lastname": "Sacquet",
+ *	"member_firstname": "Bilbo",
+ *	"member_email": "terremilieu@free.fr",
+ *	"member_password": "$2b$10$w/QpWSe.oZcOX2KoWfC.u.hrRK4wNrTFxSkTcza4HRpR4erLli.2e",
+ *	"member_username": "terremilieu@free.fr",
+ *	"member_created_at": "2022-08-24T14:21:11.578Z",
+ *	"member_updated_at": null,
+ *	"member_data_id": 1,
+ *	"member_data_date_birth": "25/01/1980",
+ *	"member_data_size": 180,
+ *	"member_data_top_size": "xl",
+ *	"member_data_bottom_size": "40",
+ *	"member_data_shoes_size": 46,
+ *	"member_data_school": "Oclock",
+ *	"member_data_hobbies": "rien",
+ *	"member_data_created_at": "2022-08-24T14:21:31.337Z",
+ *	"member_data_updated_at": null,
+ *	"member_data_member_id": 1
+ *}
+ * ]
+ * @return {string} 500 - error response - application/json
+ * @example response - 500 - error response example
+ * [
+ *   {
+ *      "status": "error",
+ *      "statusCode": 500,
+ *      "message": "jwt expired"
+ *   }
+ * ]
+ */
+/**
+ * PATCH /api/member/:id
+ * @summary endpoint pour mettre à jour un membre.
+ * @tags member
+ * @param {object} request.body.required - infos de modification du membre.
+ * @return {object} 200 - Success response - application/json
+ * @return {object} 401 - Bad request response - application/json
+ * @example request - example modification membre
+ * [
+ *  {
+ *	    "member_lastname": "Sacquet",
+ *	    "member_firstname": "Bilbo",
+ *	    "member_email": "terremilieu@free.fr",
+ *      "roleId": 1,
+ *	    "member_data_date_birth": "25/01/1980",
+ *	    "member_data_size": 180,
+ *	    "member_data_top_size": "xl",
+ *	    "member_data_bottom_size": "40",
+ *	    "member_data_shoes_size": 46,
+ *	    "member_data_school": "Oclock",
+ *	    "member_data_hobbies": "rien"
+ *  }
+ * ]
+ * @example response - 200 - example success response
+ * {
+ *   "msg": "Le membre a bien été modifié !"
+ * }
+ * @example response - 401 - example error response champs
+ * {
+ *   "msg": "Tous les champs sont requis !"
+ * }
+ */
+/**
+ * DELETE /api/membre/:id
+ * @summary endpoint pour supprimer un membre par son ID et son family ID.
+ * @tags member
+ * @return {object} 200 - Success response - application/json
+ * @return {object} 401 - Bad request response - application/json
+ * @example response - 200 - example success response
+ *  {
+ *    "msg": "membre supprimé !"
+ *  }
+ * @example response - 401 - example error response champs
+ * {
+ *   "msg": "Tous les champs sont requis !"
+ * }
+ */
 router
     .route('/:id')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.read))
+    .get(controllerJwt.ckeckToken, controllerHandler(controller.getOne))
     .patch(controllerJwt.ckeckToken, controllerHandler(controller.update))
     .delete(controllerJwt.ckeckToken, controllerHandler(controller.delete));
 
 // router CRUD  membre data par ID
 
-router
-    .route('/:id/memberdata')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .post(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .patch(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .delete(controllerJwt.ckeckToken, controllerHandler(controller.getAll));
+// router
+//  .route('/:id/memberdata')
+// .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
+// .post(controllerJwt.ckeckToken, controllerHandler(controller.create))
+// .patch(controllerJwt.ckeckToken, controllerHandler(controller.update))
+// .delete(controllerJwt.ckeckToken, controllerHandler(controller.delete));
 
 // router Read du dashboard du member
 
-router
-    .route('/:id/home')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll));
+// router
+//    .route('/:id/home')
+//    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll));
 
 // router RU de la family du member
 
-router
-    .route('/:id/family/:id')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .patch(controllerJwt.ckeckToken, controllerHandler(controller.getAll));
+// router
+//    .route('/:id/family/:id')
+//    .get(controllerJwt.ckeckToken, controllerHandler(controller.getOne))
+//    .patch(controllerJwt.ckeckToken, controllerHandler(controller.update));
+
+// router
+//    .route('/addMember')
+//    .post(controllerHandler(controller.create));
+// router
+//    .route('/addMember')
+//    .post(controllerHandler(controller.create));
 
 module.exports = router;
