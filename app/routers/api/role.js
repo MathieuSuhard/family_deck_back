@@ -14,7 +14,7 @@ const router = express.Router();
 
 /**
  * GET /api/role
- * @summary endpoint pour afficher tous les roles de la BDD.
+ * @summary endpoint pour afficher tous les roles de la BDD sécurisé pour un TOKEN.
  * @tags role
  * @return {object} 200 - success response - application/json
  * @example response - 200 - success response example
@@ -35,7 +35,7 @@ router
 
 /**
  * GET /api/role/:id
- * @summary endpoint pour afficher un roles par son ID.
+ * @summary endpoint pour afficher un roles par son ID sécurisé pour un TOKEN.
  * @tags role
  * @return {object} 200 - success response - application/json
  * @example response - 200 - success response example

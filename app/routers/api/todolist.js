@@ -11,7 +11,7 @@ const controllerJwt = require('../../middleware/jwt');
 const router = express.Router();
 /**
  * POST /api/todolist/
- * @summary endpoint pour créer une todolist.
+ * @summary endpoint pour créer une todolist sécurisé pour un TOKEN.
  * @tags todolist
  * @param {object} request.body.required - infos de création d'une todolist.
  * @return {object} 200 - Success response - application/json
@@ -87,7 +87,7 @@ router
  */
 /**
  * PATCH /api/todolist/:id
- * @summary endpoint pour mettre à jour une todolist par son ID.
+ * @summary endpoint pour mettre à jour une todolist par son ID sécurisé pour un TOKEN.
  * @tags todolist
  * @param {object} request.body.required - infos de modification d'une todolist.
  * @return {object} 200 - Success response - application/json
@@ -120,7 +120,7 @@ router
  */
 /**
  * DELETE /api/todolist/:id
- * @summary endpoint pour supprimer une todolist.
+ * @summary endpoint pour supprimer une todolist sécurisé pour un TOKEN.
  * @tags todolist
  * @return {object} 200 - Success response - application/json
  * @return {object} 401 - Bad request response - application/json
@@ -194,7 +194,7 @@ router
  */
 /**
  * POST /api/todolist/:id/items
- * @summary endpoint pour créer un item dans une todolist.
+ * @summary endpoint pour créer un item dans une todolist sécurisé pour un TOKEN.
  * @tags todolist
  * @param {object} request.body.required - infos de création d'un item.
  * @return {object} 200 - Success response - application/json
