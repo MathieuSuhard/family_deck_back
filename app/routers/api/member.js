@@ -48,8 +48,8 @@ const router = express.Router();
  */
 router
     .route('/')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.getAll))
-    .post(controllerJwt.ckeckToken, controllerHandler(controller.create));
+    .get(controllerHandler(controller.getAll))
+    .post(controllerHandler(controller.create));
 
 /**
  * GET /api/member/:id
@@ -141,9 +141,9 @@ router
  */
 router
     .route('/:id')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.getOne))
-    .patch(controllerJwt.ckeckToken, controllerHandler(controller.update))
-    .delete(controllerJwt.ckeckToken, controllerHandler(controller.delete));
+    .get(controllerHandler(controller.getOne))
+    .patch(controllerHandler(controller.update))
+    .delete(controllerHandler(controller.delete));
 
 // router CRUD  membre data par ID
 

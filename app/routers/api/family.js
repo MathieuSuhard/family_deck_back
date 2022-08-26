@@ -81,6 +81,9 @@ router
  */
 router
     .route('/:id/members')
-    .get(controllerJwt.ckeckToken, controllerHandler(controller.allmemberAndFamily));
+    .get(controllerHandler(controller.allmemberAndFamily));
 
+router
+    .route('/:idFamily/member/:id')
+    .get(controllerHandler(controller.familyAndOneMember));
 module.exports = router;

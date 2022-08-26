@@ -29,6 +29,18 @@ module.exports = {
         };
         return res.json(newFamily);
     },
+    async familyAndOneMember(req, res) {
+        const familyId = {
+            familyId: req.params.idFamily,
+            memberId: req.params.id,
+        };
+        console.log(familyId);
+        const OneMember = await familyDatamapper.dataMemberByFamily(familyId);
+        if (!OneMember) {
+            throw new ApiError('member not found', { statusCode: 404 });
+        }
+        return res.json(OneMember);
+    },
 
     async update(req, res) {
         const {

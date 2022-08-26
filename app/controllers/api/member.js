@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const memberDataMapper = require('../../models/member');
 const memberData = require('../../models/memberdata');
 const memberRole = require('../../models/role');
+const familyDatamapper = require('../../models/family');
 const { ApiError } = require('../../helpers/errorHandler');
 
 module.exports = {
@@ -74,8 +75,13 @@ module.exports = {
                 hobbies,
                 memberId,
             });
+            await familyDatamapper.AddMemberOfFamily({
+                familyId,
+                memberId,
+                roleId,
+            });
             res.json({
-                msg: 'Ajout du nouveau membre', memberId, memberLastname, newMemberData, memberUsername,
+                msg: 'Ajout du nouveau membre', memberId, memberLastname, memberUsername, newMemberData,
             });
         } catch (err) {
             res.json(err);

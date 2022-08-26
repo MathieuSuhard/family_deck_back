@@ -1,4 +1,5 @@
 const client = require('../config/db');
+const letter = require('../middleware/MajLetter');
 
 module.exports = {
     /**
@@ -17,30 +18,46 @@ module.exports = {
      */
 
     async findByPk(postId) {
-        const result = await client.query('SELECT * FROM member JOIN member_data ON member.member_id = member_data.member_data_member_id WHERE member.member_id= $1', [postId]);
+        const result = await client.query(`SELECT member.member_id,
+            member.member_lastname,
+            member.member_firstname,
+            member.member_email,
+            member.member_username,
+            member_data.member_data_id AS data_id,
+            member_data.member_data_date_birth AS birth,
+            member_data.member_data_size AS size,
+            member_data.member_data_top_size AS top_size,
+            member_data.member_data_bottom_size AS bottom_size,
+            member_data.member_data_shoes_size AS shoes_size,
+            member_data.member_data_school AS school,
+            member_data.member_data_hobbies AS hobbies
+            FROM member JOIN member_data ON member.member_id = member_data.member_data_member_id WHERE member.member_id = $1`, [postId]);
         if (result.rowCount === 0) {
             return null;
         }
         return result.rows[0];
     },
     async create(member) {
+        const lastname = letter.MajFirstLetter(member.lastname);
+        const username = letter.minFirstLetter(member.username);
         const savedMember = await client.query(
             `
                 INSERT INTO member
                 (member_lastname, member_username, member_password) VALUES
                 ($1, $2, $3) RETURNING *
             `,
-            [member.lastname, member.username, member.password],
+            [lastname, username, member.password],
         );
 
         return savedMember.rows[0];
     },
     async isUnique(userName) {
+        const userNameMember = letter.minFirstLetter(userName);
         const isUnique = await client.query(
             `
             SELECT * FROM "member" WHERE member.member_username= $1
             `,
-            [userName],
+            [userNameMember],
         );
         return isUnique.rows[0];
     },
@@ -66,6 +83,10 @@ module.exports = {
      */
 
     async update(update) {
+        const lastname = letter.MajFirstLetter(update.lastname);
+        const username = letter.minFirstLetter(update.username);
+        const firstname = letter.MajFirstLetter(update.firstname);
+        const email = letter.minFirstLetter(update.username);
         const updateMember = await client.query(
             `
             UPDATE member
@@ -76,7 +97,7 @@ module.exports = {
              member_email = $5,
              WHERE member_id = $6 RETURNING *
             `,
-            [update.username, update.password, update.lastname, update.firstname, update.emai],
+            [username, update.password, lastname, firstname, email],
         );
         return updateMember.rows[0];
     },
@@ -89,7 +110,7 @@ module.exports = {
      */
 
     async delete(memberId) {
-        const deleteMember = await client.query('DELETE FROM member WHERE member_id = $1', [memberId]);
+        const deleteMember = await client.query('DELETE FROM member WHERE member_id = $1 RETURNING *', [memberId]);
         return deleteMember.rows;
     },
 

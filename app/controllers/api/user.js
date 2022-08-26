@@ -70,8 +70,7 @@ module.exports = {
             const token = jwtToken.createToken({ user });
             const familyId = newFamily.family_id;
             const memberId = newUser.member_id;
-
-            await familyDatamapper.AddMemberOfFamily({
+            const retour = await familyDatamapper.AddMemberOfFamily({
                 familyId,
                 memberId,
                 roleId,
