@@ -43,7 +43,9 @@ module.exports = {
 
     async allMembersByFamily(familyId) {
         const result = await client.query(`
-        SELECT family.*, member.*, role.*, member_data.*  AS family
+        SELECT family.family_id, family.family_name AS family,
+            member.member_id, member.member_lastname ,member.member_firstname AS member,
+            role.role_id, role.role_label, role.role_icon AS role
         FROM family_has_member_has_role
         JOIN family
             ON "family_has_member_has_role"."family_has_member_has_role_family_id" = "family"."family_id"
@@ -58,7 +60,7 @@ module.exports = {
         if (result.rowCount === 0) {
             return null;
         }
-        return result.rows[0];
+        return result.rows;
     },
 
     async membersByFamily(colonne, data) {
@@ -79,5 +81,16 @@ module.exports = {
             return null;
         }
         return result.rows[0];
+    },
+    async update(update) {
+        const updateFamily = await client.query(
+            `
+            UPDATE family
+            SET family_name = $1, family_description = $2
+            WHERE family_id = $3 RETURNING *
+            `,
+            [update.name, update.description, update.familyId],
+        );
+        return updateFamily.rows[0];
     },
 };

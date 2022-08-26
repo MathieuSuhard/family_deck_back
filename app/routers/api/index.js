@@ -10,6 +10,8 @@ const todolistRouter = require('./todolist');
 
 const itemRouter = require('./item');
 
+const familyRouter = require('./family');
+
 const { apiController } = require('../../controllers/api');
 
 const { ApiError } = require('../../helpers/errorHandler');
@@ -25,6 +27,8 @@ router.use('/member', memberRouter);
 router.use('/todolist', todolistRouter);
 
 router.use('/item', itemRouter);
+
+router.use('/family', familyRouter);
 
 router.all('/', apiController.home);
 

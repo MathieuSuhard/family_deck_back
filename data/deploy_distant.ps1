@@ -1,13 +1,13 @@
 
 <# scrpit de deploy #>
 
-psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\family.sql
-
-psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\role.sql
-
-psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\todolist.sql
-
-psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\table_jonction.sql
+psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\deploy\family.sql
+\deploy
+psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\deploy\role.sql
+\deploy
+psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\deploy\todolist.sql
+\deploy
+psql -d postgres://pdsahmow:WyYMkNV1CZLZCLEoGwSUqBhOkhqsfNmK@abul.db.elephantsql.com/pdsahmow -f projet-02-family-deck-back\data\deploy\jonction.sql
 
 
 

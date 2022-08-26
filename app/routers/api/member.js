@@ -12,7 +12,7 @@ const controllerJwt = require('../../middleware/jwt');
 const router = express.Router();
 /**
  * POST /api/member/
- * @summary endpoint d'ajout d un membre à une famille
+ * @summary endpoint d'ajout d un membre à une famille sécurisé pour un TOKEN.
  * @tags member
  * @param {object} request.body.required - infos de creation d'un membre
  * @return {object} 200 - Success response - application/json
@@ -94,7 +94,7 @@ router
  */
 /**
  * PATCH /api/member/:id
- * @summary endpoint pour mettre à jour un membre.
+ * @summary endpoint pour mettre à jour un membre sécurisé pour un TOKEN.
  * @tags member
  * @param {object} request.body.required - infos de modification du membre.
  * @return {object} 200 - Success response - application/json
@@ -126,7 +126,7 @@ router
  */
 /**
  * DELETE /api/membre/:id
- * @summary endpoint pour supprimer un membre par son ID et son family ID.
+ * @summary endpoint pour supprimer un membre par son ID et son family ID sécurisé pour un TOKEN.
  * @tags member
  * @return {object} 200 - Success response - application/json
  * @return {object} 401 - Bad request response - application/json

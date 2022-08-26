@@ -42,7 +42,7 @@ module.exports = {
             `,
             [userName],
         );
-        return isUnique.rows;
+        return isUnique.rows[0];
     },
     /**
      * Ajoute un membre dans la base de données

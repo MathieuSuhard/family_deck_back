@@ -55,7 +55,7 @@ router
     */
 /**
     * PATCH /api/item/:id
-    * @summary endpoint pour mettre à jour un item par son ID.
+    * @summary endpoint pour mettre à jour un item par son ID sécurisé pour un TOKEN.
     * @tags item
     * @param {object} request.body.required - infos de modification d'un item.
     * @return {object} 200 - Success response - application/json
@@ -78,7 +78,7 @@ router
     */
 /**
     * DELETE /api/item/:id
-    * @summary endpoint pour supprimer un item.
+    * @summary endpoint pour supprimer un item sécurisé pour un TOKEN.
     * @tags item
     * @return {object} 200 - Success response - application/json
     * @return {object} 401 - Bad request response - application/json

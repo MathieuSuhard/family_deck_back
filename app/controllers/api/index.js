@@ -4,6 +4,7 @@ const roleController = require('./role');
 const memberController = require('./member');
 const todolistController = require('./todolist');
 const itemController = require('./item');
+const familyController = require('./family');
 
 const apiController = {
     home(req, res) {
@@ -15,5 +16,5 @@ const apiController = {
 };
 
 module.exports = {
-    apiController, userController, roleController, memberController, todolistController, itemController,
+    familyController, apiController, userController, roleController, memberController, todolistController, itemController,
 };
