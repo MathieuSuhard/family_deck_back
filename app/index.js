@@ -16,7 +16,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // On lève les restrictions pour le côté front
-app.use(cors(process.env.CORS_DOMAINS ?? 'http://localhost:'));
+app.use(cors({
+    origin: 'gdshggfgssgs',
+}));
 
 app.use(router);
 
