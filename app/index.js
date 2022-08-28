@@ -15,9 +15,10 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+app.options('*', cors());
 // On lève les restrictions pour le côté front
 app.use(cors({
-    origin: '*',
+    origin: 'https://family-deck.surge.sh/',
 }));
 
 app.use(router);
