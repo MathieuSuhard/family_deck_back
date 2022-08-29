@@ -83,6 +83,33 @@ router
     .route('/:id/members')
     .get(controllerHandler(controller.allmemberAndFamily));
 
+/**
+ * GET /:idFamily/member/:id
+ * @summary endpoint pour afficher le member et son role en fonction de la famille identifiée par l'idFamily.
+ * @tags family
+ * @return {object} 200 - success response - application/json
+ * @example response - 200 - success response example
+ * [
+ * 	{
+ *    	"member_lastname": "Sacquet",
+ *    	"member_firstname": "Bilbo",
+ *    	"member_email": "terremilieu@free.fr",
+ *    	"member_username": "terremilieu@free.fr",
+ *    	"roleid": 1,
+ *    	"label": "papa",
+ *    	"icon": "/icone/papa.png",
+ *    	"data_id": 1,
+ *    	"birth": "25/01/1980",
+ *    	"size": 180,
+ *    	"top_size": "xl",
+ *    	"bottom_size": "40",
+ *    	"shoes_size": 46,
+ *    	"school": "Oclock",
+ *    	"hobbies": "rien"
+ *    }
+ * ]
+ */
+
 router
     .route('/:idFamily/member/:id')
     .get(controllerHandler(controller.familyAndOneMember));
