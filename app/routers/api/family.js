@@ -85,7 +85,7 @@ router
 
 /**
  * GET /:idFamily/member/:id
- * @summary endpoint pour afficher le member et son role en fonction de la famille identifiée par l'idFamily.
+ * @summary endpoint pour afficher le member et son role en fonction de la famille identifiée par l'idFamily sécurisé pour un TOKEN.
  * @tags family
  * @return {object} 200 - success response - application/json
  * @example response - 200 - success response example
