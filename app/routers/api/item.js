@@ -106,7 +106,11 @@ router
     * @return {object} 401 - Bad request response - application/json
     * @example request - example modification item
     *  {
-    *    "status": "TRUE"
+    *    "status": "true"
+    *  }
+    *  @example request - example modification item
+    *  {
+    *    "status": "false"
     *  }
     * @example response - 200 - example success response
     * {

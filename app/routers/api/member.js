@@ -20,7 +20,7 @@ const router = express.Router();
  * @example request - example
  * {
  *			"familyId" : 1,
- *			"lastname": "mathieu",
+ *			"firstname": "mathieu",
  *          "username": "mathieu",
  *          "roleId": 1,
  *          "datebirth": "01/01/2000",
@@ -34,9 +34,24 @@ const router = express.Router();
  *			"hobbies": "foot"
  *}
  * @example response - 200 - example success response
- *  {
- *    "msg": " Ajout du nouveau membre !"
- *  }
+ *   {
+ *   	"msg": "Ajout du nouveau membre !",
+ *   	"viewsMember": {
+ *   		"member_id": 9,
+ *   		"member_lastname": null,
+ *   		"member_firstname": "Mathieu",
+ *   		"member_email": null,
+ *   		"member_username": "test133",
+ *   		"data_id": 7,
+ *   		"birth": "01/01/2000",
+ *   		"size": 150,
+ *   		"top_size": "L",
+ *   		"bottom_size": "M",
+ *   		"shoes_size": 36,
+ *   		"school": "notredame",
+ *   		"hobbies": "foot"
+ *   	}
+ *   }
  * @example response - 401 - example error response champs
  * {
  *   "msg": "Tous les champs sont requis !"
