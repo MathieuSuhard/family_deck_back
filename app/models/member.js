@@ -38,15 +38,15 @@ module.exports = {
         return result.rows[0];
     },
     async create(member) {
-        const lastname = letter.MajFirstLetter(member.lastname);
+        const firstname = letter.MajFirstLetter(member.firstname);
         const username = letter.minFirstLetter(member.username);
         const savedMember = await client.query(
             `
                 INSERT INTO member
-                (member_lastname, member_username, member_password) VALUES
+                (member_firstname, member_username, member_password) VALUES
                 ($1, $2, $3) RETURNING *
             `,
-            [lastname, username, member.password],
+            [firstname, username, member.password],
         );
 
         return savedMember.rows[0];
@@ -83,21 +83,18 @@ module.exports = {
      */
 
     async update(update) {
-        const lastname = letter.MajFirstLetter(update.lastname);
-        const username = letter.minFirstLetter(update.username);
         const firstname = letter.MajFirstLetter(update.firstname);
+        const username = letter.minFirstLetter(update.username);
         const email = letter.minFirstLetter(update.username);
         const updateMember = await client.query(
             `
             UPDATE member
              SET member_username = $1,
-             member_password = $2,
-             member_lastname = $3,
-             member_firstname = $4,
-             member_email = $5,
-             WHERE member_id = $6 RETURNING *
+             member_firstname = $2,
+             member_email = $3,
+             WHERE member_id = $4 RETURNING *
             `,
-            [username, update.password, lastname, firstname, email],
+            [username, firstname, email, update.id],
         );
         return updateMember.rows[0];
     },

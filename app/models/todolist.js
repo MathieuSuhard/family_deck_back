@@ -9,7 +9,6 @@ module.exports = {
 
     async findByPk(todolistId) {
         const result = await client.query('SELECT * FROM todolist WHERE todolist_id = $1', [todolistId]);
-        console.log('todo', result);
         if (result.rowCount === 0) {
             return null;
         }
@@ -62,6 +61,18 @@ module.exports = {
             WHERE todolist_id = $3 RETURNING *
             `,
             [update.title, update.color, update.id],
+        );
+        return updateTodolist.rows[0];
+    },
+
+    async updateStatus(update) {
+        const updateTodolist = await client.query(
+            `
+            UPDATE todolist
+            SET todolist_status = $1
+            WHERE todolist_id = $2 RETURNING *
+            `,
+            [update.status, update.id],
         );
         return updateTodolist.rows[0];
     },

@@ -34,7 +34,6 @@ module.exports = {
             familyId: req.params.idFamily,
             memberId: req.params.id,
         };
-        console.log(familyId);
         const OneMember = await familyDatamapper.dataMemberByFamily(familyId);
         if (!OneMember) {
             throw new ApiError('member not found', { statusCode: 404 });

@@ -20,7 +20,7 @@ module.exports = {
     async create(req, res) {
         const {
             familyId,
-            lastname,
+            firstname,
             username,
             roleId,
             datebirth,
@@ -33,7 +33,7 @@ module.exports = {
             school,
             hobbies,
         } = req.body;
-        if (!lastname
+        if (!firstname
         || !datebirth
         || !username
         || !roleId
@@ -52,20 +52,18 @@ module.exports = {
         }
         const newUserName = await memberDataMapper.isUnique(username);
         if (newUserName) {
-            res.status(401).json({ msg: 'Cet username est déjà utilisé' });
+            res.status(401).json({ msg: 'Cet username est déjà utilisé !' });
             return;
         } try {
             const hashPassword = await bcrypt.hash(password, 10);
             const newMember = await memberDataMapper.create({
-                lastname,
+                firstname,
                 username,
                 roleId,
                 password: hashPassword,
             });
             const memberId = newMember.member_id;
-            const memberLastname = newMember.member_lastname;
-            const memberUsername = newMember.member_username;
-            const newMemberData = await memberData.create({
+            await memberData.create({
                 datebirth,
                 size,
                 topsize,
@@ -80,8 +78,9 @@ module.exports = {
                 memberId,
                 roleId,
             });
+            const viewsMember = await memberDataMapper.findByPk(memberId);
             res.json({
-                msg: 'Ajout du nouveau membre', memberId, memberLastname, memberUsername, newMemberData,
+                msg: 'Ajout du nouveau membre !', viewsMember,
             });
         } catch (err) {
             res.json(err);
@@ -90,7 +89,7 @@ module.exports = {
     async update(req, res) {
         const
             {
-                lastname,
+                firstname,
                 username,
                 email,
                 roleId,
@@ -116,7 +115,7 @@ module.exports = {
         const updateMember = await memberDataMapper.update({
             id,
             email,
-            lastname,
+            firstname,
             username,
         });
         const updateMemberRole = await memberRole.udpadteRoleofMember({
@@ -124,7 +123,7 @@ module.exports = {
             roleId,
         });
         return res.json({
-            msg: 'Le membre a bien été modifié', updateMemberData, updateMember, updateMemberRole,
+            msg: 'Le membre a bien été modifié !', updateMemberData, updateMember, updateMemberRole,
         });
     },
     async delete(req, res) {
@@ -133,7 +132,7 @@ module.exports = {
             throw new ApiError('this member does not exists', { statusCode: 404 });
         }
         return res.json({
-            msg: 'membre supprimé', deleteMember,
+            msg: 'Membre supprimé !', deleteMember,
         });
     },
 };

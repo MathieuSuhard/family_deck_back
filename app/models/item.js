@@ -59,4 +59,16 @@ module.exports = {
         }
         return result.rows[0];
     },
+
+    async updateStatus(update) {
+        const updateItemStatus = await client.query(
+            `
+            UPDATE item
+            SET item_status = $1
+            WHERE item_id = $2 RETURNING *
+            `,
+            [update.status, update.id],
+        );
+        return updateItemStatus.rows[0];
+    },
 };

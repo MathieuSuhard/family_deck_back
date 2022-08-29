@@ -97,4 +97,25 @@ router
     .patch(controllerJwt.ckeckToken, controllerHandler(controller.update))
     .delete(controllerJwt.ckeckToken, controllerHandler(controller.delete));
 
+/**
+    * PATCH /api/item/:id/status
+    * @summary endpoint pour mettre à jour le status d'un item par son ID sécurisé pour un TOKEN.
+    * @tags item
+    * @param {object} request.body.required - infos de modification d'un item.
+    * @return {object} 200 - Success response - application/json
+    * @return {object} 401 - Bad request response - application/json
+    * @example request - example modification item
+    *  {
+    *    "status": "TRUE"
+    *  }
+    * @example response - 200 - example success response
+    * {
+    *   "msg": "item modifié !"
+    * }
+    */
+
+router
+    .route('/:id/status')
+    .patch(controllerJwt.ckeckToken, controllerHandler(controller.updateStatus));
+
 module.exports = router;

@@ -17,7 +17,7 @@ INSERT INTO "family"("family_name", "family_description") VALUES
 
 CREATE TABLE "member" (
   "member_id" INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  "member_lastname" TEXT NOT NULL,
+  "member_lastname" TEXT,
   "member_firstname" TEXT,
   "member_email" TEXT ,
   "member_password" VARCHAR(255) NOT NULL,
