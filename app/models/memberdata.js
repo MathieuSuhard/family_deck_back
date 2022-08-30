@@ -56,7 +56,7 @@ module.exports = {
             WHERE member_data_member_id = $8 RETURNING *
 
             `,
-            [update.dateBirth, update.size, update.topsize, update.bottomsize,
+            [update.datebirth, update.size, update.topsize, update.bottomsize,
                 update.shoesize, update.school, update.hobbies, update.id],
         );
         return updateMemberData.rows[0];
