@@ -47,7 +47,8 @@ module.exports = {
 
     async allMembersByFamily(familyId) {
         const result = await client.query(`
-    SELECT 
+    SELECT
+        member.member_id, 
         member.member_lastname,
         member.member_firstname,
         member.member_email,
@@ -101,7 +102,8 @@ module.exports = {
     async dataMemberByFamily(memberFamily) {
         const result = await client.query(
             `
-         SELECT 
+         SELECT
+             member.member_id,
              member.member_lastname,
              member.member_firstname,
              member.member_email,
