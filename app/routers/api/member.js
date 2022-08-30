@@ -143,7 +143,7 @@ router
 router
     .route('/:id')
     .get(controllerHandler(controller.getOne))
-    .patch(controllerHandler(controller.update))
+    .patch(controllerHandler(controller.update));
 
 // router CRUD  membre data par ID
 
