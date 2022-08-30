@@ -11,14 +11,22 @@ module.exports = {
     async allmemberAndFamily(req, res) {
         const familyId = req.params.id;
         const allMemberAndRoles = await familyDatamapper.allMembersByFamily(familyId);
+        const familyDescript = await familyDatamapper.findOneId(familyId);
         if (!allMemberAndRoles) {
             throw new ApiError('family not found', { statusCode: 404 });
         }
-        return res.json(allMemberAndRoles);
+        const newFamily = {
+            famille_id: familyDescript.family_id,
+            nom: familyDescript.family_name,
+            description: familyDescript.family_description,
+            allMemberAndRoles,
+        };
+        return res.json(newFamily);
     },
+
     async familyOne(req, res) {
         const familyId = req.params.id;
-        const family = await familyDatamapper.allMembersByFamily(familyId);
+        const family = await familyDatamapper.findOneId(familyId);
         if (!family) {
             throw new ApiError('family not found', { statusCode: 404 });
         }
@@ -35,6 +43,17 @@ module.exports = {
             memberId: req.params.id,
         };
         const OneMember = await familyDatamapper.dataMemberByFamily(familyId);
+        if (!OneMember) {
+            throw new ApiError('member not found', { statusCode: 404 });
+        }
+        return res.json(OneMember);
+    },
+    async DeletefamilyAndOneMember(req, res) {
+        const familyId = {
+            familyId: req.params.idFamily,
+            memberId: req.params.id,
+        };
+        const OneMember = await familyDatamapper.deleteMemberByfamily(familyId);
         if (!OneMember) {
             throw new ApiError('member not found', { statusCode: 404 });
         }

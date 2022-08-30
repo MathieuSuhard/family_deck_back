@@ -14,6 +14,16 @@ module.exports = {
         }
         return result.rows[0];
     },
+
+    async findOneId(id) {
+        const result = await client.query(`
+        SELECT * FROM family WHERE family_id='${id}'
+        `);
+        if (result.rowCount === 0) {
+            return null;
+        }
+        return result.rows[0];
+    },
     async create(family) {
         const familyName = letter.MajFirstLetter(family.familyName);
         const savedFamily = await client.query(
@@ -47,8 +57,8 @@ module.exports = {
 
     async allMembersByFamily(familyId) {
         const result = await client.query(`
-    SELECT
-        member.member_id, 
+    SELECT 
+        member.member_id,
         member.member_lastname,
         member.member_firstname,
         member.member_email,
@@ -149,5 +159,23 @@ module.exports = {
                 update.description, update.familyId],
         );
         return updateFamily.rows[0];
+    },
+    async deleteMemberByfamily(deletMember) {
+        const deleteMember = await client.query(
+            `
+            DELETE FROM family_has_member_has_role
+            WHERE family_has_member_has_role_id =( 
+                SELECT family_has_member_has_role_id FROM family_has_member_has_role 
+                WHERE family_has_member_has_role_family_id = $1
+                AND family_has_member_has_role_member_id = $2
+            ) RETURNING *
+            `,
+            [deletMember.familyId, deletMember.memberId],
+        );
+        return deleteMember.rows[0];
+    },
+    async verifyMember() {
+        const result = await client.query('SELECT * FROM member');
+        return result.rows;
     },
 };
