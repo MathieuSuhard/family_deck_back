@@ -47,18 +47,31 @@ module.exports = {
 
     async allMembersByFamily(familyId) {
         const result = await client.query(`
-        SELECT family.family_id, family.family_name, family.family_description,
-            member.member_id, member.member_lastname ,member.member_firstname,
-            role.role_id, role.role_label, role.role_icon
-        FROM family_has_member_has_role
-        JOIN family
-            ON "family_has_member_has_role"."family_has_member_has_role_family_id" = "family"."family_id"
-        JOIN member
-            ON "family_has_member_has_role"."family_has_member_has_role_member_id" = "member"."member_id"
-        JOIN role
-            ON "family_has_member_has_role"."family_has_member_has_role_role_id" = "role"."role_id"
-        JOIN member_data
-            ON "member"."member_id" = "member_data"."member_data_member_id"
+    SELECT 
+        member.member_lastname,
+        member.member_firstname,
+        member.member_email,
+        member.member_username,
+        role.role_id AS roleId,
+        role.role_label AS label,
+        role.role_icon AS icon,
+        member_data.member_data_id AS data_id,
+        member_data.member_data_date_birth AS birth,
+        member_data.member_data_size AS size,
+        member_data.member_data_top_size AS top_size,
+        member_data.member_data_bottom_size AS bottom_size,
+        member_data.member_data_shoes_size AS shoes_size,
+        member_data.member_data_school AS school,
+        member_data.member_data_hobbies AS hobbies
+    FROM family_has_member_has_role
+    JOIN family
+        ON "family_has_member_has_role"."family_has_member_has_role_family_id" = "family"."family_id"
+    JOIN member
+        ON "family_has_member_has_role"."family_has_member_has_role_member_id" = "member"."member_id"
+    JOIN role
+        ON "family_has_member_has_role"."family_has_member_has_role_role_id" = "role"."role_id"
+    JOIN member_data
+        ON "member"."member_id" = "member_data"."member_data_member_id"
          WHERE family_id='${familyId}'
         `);
         if (result.rowCount === 0) {
