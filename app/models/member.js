@@ -17,7 +17,7 @@ module.exports = {
      * @returns Le membre souhaité ou undefined si aucun membre avec cet id
      */
 
-    async findByPk(postId) {
+    async findByPk(memberId) {
         const result = await client.query(`SELECT member.member_id,
             member.member_lastname,
             member.member_firstname,
@@ -31,7 +31,7 @@ module.exports = {
             member_data.member_data_shoes_size AS shoes_size,
             member_data.member_data_school AS school,
             member_data.member_data_hobbies AS hobbies
-            FROM member JOIN member_data ON member.member_id = member_data.member_data_member_id WHERE member.member_id = $1`, [postId]);
+            FROM member JOIN member_data ON member.member_id = member_data.member_data_member_id WHERE member.member_id = $1`, [memberId]);
         if (result.rowCount === 0) {
             return null;
         }
@@ -84,21 +84,18 @@ module.exports = {
 
     async update(update) {
         const firstname = letter.MajFirstLetter(update.firstname);
-        const username = letter.minFirstLetter(update.username);
-        const email = letter.minFirstLetter(update.username);
+        const email = letter.minFirstLetter(update.email);
         const updateMember = await client.query(
             `
             UPDATE member
-             SET member_username = $1,
-             member_firstname = $2,
-             member_email = $3,
-             WHERE member_id = $4 RETURNING *
+             SET member_firstname = $1,
+             member_email = $2
+             WHERE member_id = $3 RETURNING *
             `,
-            [username, firstname, email, update.id],
+            [firstname, email, update.id],
         );
         return updateMember.rows[0];
     },
-
     /**
      * Supprime de la base de donnée un membre
      * @param {number} id - l'id du membre supprimé
@@ -111,10 +108,4 @@ module.exports = {
         return deleteMember.rows;
     },
 
-    /**
-     * Verifie si le membre existe déjà
-     * @param le nom du inputData
-     * @param {*} postId
-     * @returns
-     */
 };

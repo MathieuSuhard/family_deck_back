@@ -91,12 +91,16 @@ module.exports = {
     async udpadteRoleofMember(UroleOfMember) {
         const newUroleofMember = await client.query(
             `
-                UPDATE member_has_role
-                SET member_has_role_role_id = $1,
-                WHERE member_has_role_role_id = $2 RETURNING *
+            UPDATE family_has_member_has_role SET family_has_member_has_role_role_id = $1 
+            WHERE family_has_member_has_role_id = (
+                SELECT family_has_member_has_role_id FROM family_has_member_has_role 
+                WHERE family_has_member_has_role_family_id = $2
+                AND family_has_member_has_role_member_id = $3
+            ) RETURNING *
             `,
-            [UroleOfMember.memberId,
-                UroleOfMember.roleId,
+            [UroleOfMember.roleId,
+                UroleOfMember.familyId,
+                UroleOfMember.id,
             ],
         );
         return newUroleofMember.rows[0];

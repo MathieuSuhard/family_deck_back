@@ -20,7 +20,7 @@ const router = express.Router();
  * @example request - example
  * {
  *			"familyId" : 1,
- *			"firstname": "mathieu",
+ *			"lastname": "mathieu",
  *          "username": "mathieu",
  *          "roleId": 1,
  *          "datebirth": "01/01/2000",
@@ -67,47 +67,6 @@ router
     .post(controllerHandler(controller.create));
 
 /**
- * GET /api/member/:id
- * @summary endpoint pour afficher un membre par son ID sécurisé pour un TOKEN.
- * @tags member
- * @param {string} token.query.required - token retourné par l'api si le user
- * à le droit de se connecter
- * @return {object} 200 - success response - application/json
- * @example response - 200 - success response example
- * [
- * {
- *	"member_id": 1,
- *	"member_lastname": "Sacquet",
- *	"member_firstname": "Bilbo",
- *	"member_email": "terremilieu@free.fr",
- *	"member_password": "$2b$10$w/QpWSe.oZcOX2KoWfC.u.hrRK4wNrTFxSkTcza4HRpR4erLli.2e",
- *	"member_username": "terremilieu@free.fr",
- *	"member_created_at": "2022-08-24T14:21:11.578Z",
- *	"member_updated_at": null,
- *	"member_data_id": 1,
- *	"member_data_date_birth": "25/01/1980",
- *	"member_data_size": 180,
- *	"member_data_top_size": "xl",
- *	"member_data_bottom_size": "40",
- *	"member_data_shoes_size": 46,
- *	"member_data_school": "Oclock",
- *	"member_data_hobbies": "rien",
- *	"member_data_created_at": "2022-08-24T14:21:31.337Z",
- *	"member_data_updated_at": null,
- *	"member_data_member_id": 1
- *}
- * ]
- * @return {string} 500 - error response - application/json
- * @example response - 500 - error response example
- * [
- *   {
- *      "status": "error",
- *      "statusCode": 500,
- *      "message": "jwt expired"
- *   }
- * ]
- */
-/**
  * PATCH /api/member/:id
  * @summary endpoint pour mettre à jour un membre sécurisé pour un TOKEN.
  * @tags member
@@ -139,11 +98,25 @@ router
  *   "msg": "Tous les champs sont requis !"
  * }
  */
-
+/**
+ * DELETE /api/membre/:id
+ * @summary endpoint pour supprimer un membre par son ID et son family ID sécurisé pour un TOKEN.
+ * @tags member
+ * @return {object} 200 - Success response - application/json
+ * @return {object} 401 - Bad request response - application/json
+ * @example response - 200 - example success response
+ *  {
+ *    "msg": "membre supprimé !"
+ *  }
+ * @example response - 401 - example error response champs
+ * {
+ *   "msg": "Tous les champs sont requis !"
+ * }
+ */
 router
     .route('/:id')
-    .get(controllerHandler(controller.getOne))
-    .patch(controllerHandler(controller.update));
+    .patch(controllerHandler(controller.update))
+    .delete(controllerHandler(controller.delete));
 
 // router CRUD  membre data par ID
 

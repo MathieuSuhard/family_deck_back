@@ -4,6 +4,7 @@ const userDatamapper = require('../../models/user');
 const familyDatamapper = require('../../models/family');
 const roleDatamapper = require('../../models/role');
 const memberDatamapper = require('../../models/memberdata');
+const memberAllDatamapper = require('../../models/member');
 const { ApiError } = require('../../helpers/errorHandler');
 
 module.exports = {
@@ -31,9 +32,9 @@ module.exports = {
             throw new ApiError('family not found', { statusCode: 404 });
         }
         const newFamily = {
-            famille_id: family[0].family_id,
-            nom: family[0].family_name,
-            description: family[0].family_description,
+            famille_id: family.family_id,
+            nom: family.family_name,
+            description: family.family_description,
         };
         return res.json(newFamily);
     },
@@ -53,13 +54,17 @@ module.exports = {
             familyId: req.params.idFamily,
             memberId: req.params.id,
         };
-        const OneMember = await familyDatamapper.deleteMemberByfamily(familyId);
-        if (!OneMember) {
-            throw new ApiError('member not found', { statusCode: 404 });
+        const deleteMemberFamily = await familyDatamapper.deleteMemberByfamily(familyId);
+        const OneMember = await familyDatamapper.membersByFamily('family_has_member_has_role_member_id', familyId.memberId);
+        console.log(deleteMemberFamily);
+        console.log(OneMember);
+        if (OneMember) {
+            res.status(200).json({ msg: 'this member have an other family !' });
+        } else {
+            const deleteMember = await memberAllDatamapper.delete(familyId.memberId);
+            res.status(200).json({ msg: 'This member has been deleted !', deleteMember });
         }
-        return res.json(OneMember);
     },
-
     async update(req, res) {
         const {
             name,

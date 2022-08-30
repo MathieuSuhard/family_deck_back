@@ -52,12 +52,12 @@ module.exports = {
              member_data_bottom_size = $4,
              member_data_shoes_size = $5,
              member_data_school = $6,
-             member_data_hobbies = $7,
-            WHERE member_data_id = $8 RETURNING *
+             member_data_hobbies = $7
+            WHERE member_data_member_id = $8 RETURNING *
 
             `,
             [update.dateBirth, update.size, update.topsize, update.bottomsize,
-                update.shoesize, update.school, update.hoobies],
+                update.shoesize, update.school, update.hobbies, update.id],
         );
         return updateMemberData.rows[0];
     },

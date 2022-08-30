@@ -29,6 +29,7 @@ INSERT INTO "family_has_member_has_role"("family_has_member_has_role_family_id",
 (1, 2, 3),
 (2, 3, 2),
 (2, 4, 1),
+(2, 1, 1),
 (2, 5, 3);
 
 

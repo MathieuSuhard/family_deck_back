@@ -85,7 +85,7 @@ router
 
 /**
  * GET /:idFamily/member/:id
- * @summary endpoint pour afficher le member et son role en fonction de la famille identifiée par l'idFamily sécurisé pour un TOKEN.
+ * @summary endpoint pour afficher le member et son role en fonction de la famille identifiée par l'idFamily.
  * @tags family
  * @return {object} 200 - success response - application/json
  * @example response - 200 - success response example
@@ -109,8 +109,23 @@ router
  *    }
  * ]
  */
-
+/**
+ * DELETE /:idFamily/member/:id
+ * @summary endpoint pour supprimer un membre par son ID et son family ID sécurisé pour un TOKEN.
+ * @tags member
+ * @return {object} 200 - Success response - application/json
+ * @return {object} 401 - Bad request response - application/json
+ * @example response - 200 - example success response
+ *  {
+ *    "msg": "membre supprimé !"
+ *  }
+ * @example response - 401 - example error response champs
+ * {
+ *   "msg": "Tous les champs sont requis !"
+ * }
+ */
 router
     .route('/:idFamily/member/:id')
-    .get(controllerHandler(controller.familyAndOneMember));
+    .get(controllerHandler(controller.familyAndOneMember))
+    .delete(controllerHandler(controller.DeletefamilyAndOneMember));
 module.exports = router;

@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const memberDataMapper = require('../../models/member');
 const memberData = require('../../models/memberdata');
-const memberRole = require('../../models/role');
 const familyDatamapper = require('../../models/family');
 const { ApiError } = require('../../helpers/errorHandler');
 
@@ -90,9 +89,7 @@ module.exports = {
         const
             {
                 firstname,
-                username,
                 email,
-                roleId,
                 datebirth,
                 topsize,
                 bottomsize,
@@ -116,23 +113,10 @@ module.exports = {
             id,
             email,
             firstname,
-            username,
-        });
-        const updateMemberRole = await memberRole.udpadteRoleofMember({
-            id,
-            roleId,
         });
         return res.json({
-            msg: 'Le membre a bien été modifié !', updateMemberData, updateMember, updateMemberRole,
+            msg: 'Le membre a bien été modifié !', updateMemberData, updateMember,
         });
     },
-    async delete(req, res) {
-        const deleteMember = await memberDataMapper.delete(req.params.id);
-        if (!deleteMember) {
-            throw new ApiError('this member does not exists', { statusCode: 404 });
-        }
-        return res.json({
-            msg: 'Membre supprimé !', deleteMember,
-        });
-    },
+
 };
