@@ -98,25 +98,11 @@ router
  *   "msg": "Tous les champs sont requis !"
  * }
  */
-/**
- * DELETE /api/membre/:id
- * @summary endpoint pour supprimer un membre par son ID et son family ID sécurisé pour un TOKEN.
- * @tags member
- * @return {object} 200 - Success response - application/json
- * @return {object} 401 - Bad request response - application/json
- * @example response - 200 - example success response
- *  {
- *    "msg": "membre supprimé !"
- *  }
- * @example response - 401 - example error response champs
- * {
- *   "msg": "Tous les champs sont requis !"
- * }
- */
+
 router
     .route('/:id')
-    .patch(controllerHandler(controller.update))
-    .delete(controllerHandler(controller.delete));
+    .get(controllerHandler(controller.getOne))
+    .patch(controllerHandler(controller.update));
 
 // router CRUD  membre data par ID
 

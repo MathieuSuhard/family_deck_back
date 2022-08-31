@@ -49,6 +49,76 @@ module.exports = {
         }
         return res.json(OneMember);
     },
+    async AddMemberOfFamily(req, res) {
+        const familyId = req.params.id;
+        const {
+            firstname,
+            username,
+            roleId,
+            datebirth,
+            password,
+            confirmPassword,
+            topsize,
+            bottomsize,
+            shoesize,
+            size,
+            school,
+            hobbies,
+        } = req.body;
+        if (!firstname
+        || !datebirth
+        || !username
+        || !roleId
+        || !password
+        || !confirmPassword
+        ) {
+            throw new ApiError('tous les champs sont requis', { statusCode: 400 });
+        }
+
+        if (password !== confirmPassword) {
+            res.status(401).json({ msg: 'les mots de passe ne sont pas identiques !' });
+            return;
+        }
+        if (!familyId) {
+            throw new ApiError('This family does not exits', { statusCode: 404 });
+        }
+        const newUserName = await memberAllDatamapper.isUnique(username);
+        if (newUserName) {
+            res.status(401).json({ msg: 'Cet username est déjà utilisé !' });
+            return;
+        } try {
+            const hashPassword = await bcrypt.hash(password, 10);
+            const newMember = await memberAllDatamapper.create({
+                firstname,
+                username,
+                roleId,
+                password: hashPassword,
+            });
+            const memberId = newMember.member_id;
+            await memberDatamapper.create({
+                datebirth,
+                size,
+                topsize,
+                bottomsize,
+                shoesize,
+                school,
+                hobbies,
+                memberId,
+            });
+            await familyDatamapper.AddMemberOfFamily({
+                familyId,
+                memberId,
+                roleId,
+            });
+            const viewsMember = await memberAllDatamapper.findByPk(memberId);
+            res.json({
+                msg: 'Ajout du nouveau membre !', viewsMember,
+            });
+        } catch (err) {
+            res.json(err);
+        }
+    },
+
     async DeletefamilyAndOneMember(req, res) {
         const familyId = {
             familyId: req.params.idFamily,
@@ -56,8 +126,6 @@ module.exports = {
         };
         const deleteMemberFamily = await familyDatamapper.deleteMemberByfamily(familyId);
         const OneMember = await familyDatamapper.membersByFamily('family_has_member_has_role_member_id', familyId.memberId);
-        console.log(deleteMemberFamily);
-        console.log(OneMember);
         if (OneMember) {
             res.status(200).json({ msg: 'this member have an other family !' });
         } else {

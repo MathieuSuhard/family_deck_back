@@ -79,9 +79,56 @@ router
  *  	}
  * ]
  */
+/**
+ * POST /api/:id/members/
+ * @summary endpoint d'ajout d un membre à une famille sécurisé pour un TOKEN.
+ * @tags member
+ * @param {object} request.body.required - infos de creation d'un membre
+ * @return {object} 200 - Success response - application/json
+ * @return {object} 401 - Bad request response - application/json
+ * @example request - example
+ * {
+ *			"lastname": "mathieu",
+ *          "username": "mathieu",
+ *          "roleId": 1,
+ *          "datebirth": "01/01/2000",
+ *          "password": "test",
+ *          "confirmPassword": "test",
+ *          "topsize": "L",
+ *          "bottomsize": "M",
+ *          "shoesize": "36",
+ *          "size": "150",
+ *   		"school": "notredame",
+ *			"hobbies": "foot"
+ *}
+ * @example response - 200 - example success response
+ *   {
+ *   	"msg": "Ajout du nouveau membre !",
+ *   	"viewsMember": {
+ *   		"member_id": 9,
+ *   		"member_lastname": null,
+ *   		"member_firstname": "Mathieu",
+ *   		"member_email": null,
+ *   		"member_username": "test133",
+ *   		"data_id": 7,
+ *   		"birth": "01/01/2000",
+ *   		"size": 150,
+ *   		"top_size": "L",
+ *   		"bottom_size": "M",
+ *   		"shoes_size": 36,
+ *   		"school": "notredame",
+ *   		"hobbies": "foot"
+ *   	}
+ *   }
+ * @example response - 401 - example error response champs
+ * {
+ *   "msg": "Tous les champs sont requis !"
+ * }
+ */
 router
     .route('/:id/members')
-    .get(controllerHandler(controller.allmemberAndFamily));
+    .get(controllerHandler(controller.allmemberAndFamily))
+    .post(controllerHandler(controller.AddMemberOfFamily));
 
 /**
  * GET /:idFamily/member/:id

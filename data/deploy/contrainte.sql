@@ -1,3 +1,5 @@
+-- Active: 1654854605320@@127.0.0.1@5432
+-- SQLBook: Code
 BEGIN;
 
 CREATE DOMAIN "email" AS text CHECK (
