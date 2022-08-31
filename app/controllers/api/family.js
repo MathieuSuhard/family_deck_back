@@ -95,6 +95,11 @@ module.exports = {
                 password: hashPassword,
             });
             const memberId = newMember.member_id;
+            await familyDatamapper.AddMemberOfFamily({
+                familyId,
+                memberId,
+                roleId,
+            });
             await memberDatamapper.create({
                 datebirth,
                 size,
@@ -104,11 +109,6 @@ module.exports = {
                 school,
                 hobbies,
                 memberId,
-            });
-            await familyDatamapper.AddMemberOfFamily({
-                familyId,
-                memberId,
-                roleId,
             });
             const viewsMember = await memberAllDatamapper.findByPk(memberId);
             res.json({
