@@ -82,7 +82,7 @@ router
 /**
  * POST /api/:id/members/
  * @summary endpoint d'ajout d un membre à une famille sécurisé pour un TOKEN.
- * @tags member
+ * @tags family
  * @param {object} request.body.required - infos de creation d'un membre
  * @return {object} 200 - Success response - application/json
  * @return {object} 401 - Bad request response - application/json
@@ -159,7 +159,7 @@ router
 /**
  * DELETE /:idFamily/member/:id
  * @summary endpoint pour supprimer un membre par son ID et son family ID sécurisé pour un TOKEN.
- * @tags member
+ * @tags family
  * @return {object} 200 - Success response - application/json
  * @return {object} 401 - Bad request response - application/json
  * @example response - 200 - example success response
