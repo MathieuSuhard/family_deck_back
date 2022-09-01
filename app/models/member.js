@@ -13,7 +13,7 @@ module.exports = {
     },
     /**
      * Récupère les membres par son id
-     * @param {number} postId - l'id du membre souhaité
+     * @param {number} memberId - l'id du membre souhaité
      * @returns Le membre souhaité ou undefined si aucun membre avec cet id
      */
 
@@ -37,6 +37,11 @@ module.exports = {
         }
         return result.rows[0];
     },
+    /**
+     * Création du membre
+     * @param {number} memberId - l'id du membre souhaité
+     * @returns Le membre souhaité ou undefined si aucun membre avec cet id
+     */
     async create(member) {
         const firstname = letter.MajFirstLetter(member.firstname);
         const username = letter.minFirstLetter(member.username);

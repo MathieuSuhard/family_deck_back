@@ -1,5 +1,6 @@
-BEGIN;
+-- Deploy family_deck:viewsTodolist to pg
 
+BEGIN;
 CREATE VIEW  todolist_of_family AS
 SELECT family.family_id,
         todolist.*
@@ -27,4 +28,5 @@ JOIN family_has_todolist
 JOIN family
     ON family_has_todolist.family_has_todolist_family_id = family.family_id	
 ;
-COMMIT; -- fin de la transaction
+
+COMMIT;

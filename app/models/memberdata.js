@@ -42,6 +42,7 @@ module.exports = {
 
         return savedMember.rows[0];
     },
+
     async update(update) {
         const updateMemberData = await client.query(
             `

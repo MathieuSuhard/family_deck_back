@@ -77,7 +77,6 @@ module.exports = {
                 memberId,
                 roleId,
             });
-            console.log(familyDatamapper);
             const viewsMember = await memberDataMapper.findByPk(memberId);
             res.json({
                 msg: 'Ajout du nouveau membre !', viewsMember,
@@ -100,7 +99,6 @@ module.exports = {
                 hobbies,
             } = req.body;
         const { id } = req.params;
-        console.log(typeof datebirth);
         const updateMemberData = await memberData.update({
             id,
             datebirth,

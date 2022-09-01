@@ -18,6 +18,10 @@ INSERT INTO "family"("family_name", "family_description") VALUES
 ('hobbit', null),
 ('superman', 'famille de super héro du dev');
 
+COMMIT; -- fin de la transaction
+
+BEGIN;
+
 -- table membre liste tous les membres 
 
 CREATE TABLE "member" (
@@ -91,6 +95,8 @@ VALUES
 
 COMMIT; -- fin de la transaction
 
+BEGIN;
+
 -- table member__data regroupe les infos utilies des membres
 
 CREATE TABLE "member_data" (
@@ -107,12 +113,13 @@ CREATE TABLE "member_data" (
   "member_data_member_id" INTEGER NOT NULL REFERENCES "member"("member_id") ON DELETE CASCADE
 );
 
-
 INSERT INTO "member_data"("member_data_date_birth", "member_data_size", "member_data_top_size", "member_data_bottom_size", "member_data_shoes_size", "member_data_school", "member_data_hobbies" ,"member_data_member_id") VALUES 
 ('25/01/1980', 180, 'xl', '40', 46, 'Oclock', 'rien', 1),
 ('25/01/2000', 160, 'xxl', '40', 46, 'Oclock', 'rien', 2),
 ('25/01/1000', 100, 'xxxl', '50', 45, 'la baron', 'rien', 3);
 
+COMMIT; -- fin de la transaction
+BEGIN;
 
 -- table role regroupe le rôle de chaque membre
 
@@ -123,8 +130,6 @@ CREATE TABLE "role" (
   "role_created_at" TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   "role_updated_at" TIMESTAMPTZ
 );
-
-
 INSERT INTO "role"("role_label", "role_icon") VALUES 
 ('papa', '/icone/papa.png'),
 ('maman', '/icone/maman.png'),
@@ -160,6 +165,7 @@ CREATE TABLE "item" (
   "item_todolist_id" INTEGER NOT NULL REFERENCES "todolist"("todolist_id") ON DELETE CASCADE
 );
 
+
 INSERT INTO "todolist"("todolist_title", "todolist_color", "todolist_position", "todolist_status", "todolist_member_id") VALUES 
 ('post1', '#ff00ff', 1, FALSE, 1),
 ('post2', '#ff00ff', 1, FALSE, 2),
@@ -176,6 +182,9 @@ INSERT INTO "item"("item_title", "item_color", "item_position", "item_deadline",
 ('changer la litiere', '#ff00ff', 2, '25/08/2022', FALSE, 4),
 ('faire le jardin', '#ff00ff', 2, '25/08/2022', FALSE, 5),
 ('jardin', '#ff00ff', 1, '30/09/2022', FALSE, 2);
+
+COMMIT; -- fin de la transaction
+BEGIN;
 
 -- table jonction family / member
 

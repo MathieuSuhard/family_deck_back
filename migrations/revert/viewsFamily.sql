@@ -1,6 +1,7 @@
+-- Revert family_deck:viewsFamily from pg
+
 BEGIN;
 
-DROP VIEW family_with_member_and_roles;
+DROP VIEW todolist_of_family, item_of_todolist, item_todo_of_family;
 
-
-COMMIT; -- fin de la transaction
+COMMIT;

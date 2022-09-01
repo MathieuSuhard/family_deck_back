@@ -5,6 +5,7 @@ const familyDatamapper = require('../../models/family');
 const memberDatamapper = require('../../models/memberdata');
 // const { ApiError } = require('../../helpers/errorHandler');
 const jwtToken = require('../../middleware/jwt');
+const letter = require('../../middleware/MajLetter');
 
 module.exports = {
 
@@ -111,7 +112,8 @@ module.exports = {
             res.status(401).json({ msg: 'Tous les champs sont requis !' });
             return;
         }
-        const user = await familyDatamapper.membersByFamily('member_username', userName);
+        const userNameFormat = letter.minFirstLetter(userName);
+        const user = await familyDatamapper.membersByFamily('member_username', userNameFormat);
         if (!user) {
             res.status(401).json({ msg: 'utilisateur introuvable' });
             return;

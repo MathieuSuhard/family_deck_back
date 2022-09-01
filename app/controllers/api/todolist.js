@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const todolistDatamapper = require('../../models/todolist');
 const itemDatamapper = require('../../models/item');
 
@@ -117,5 +118,4 @@ module.exports = {
             msg: 'todolist supprimée !', deleteTodolist,
         });
     },
-
 };

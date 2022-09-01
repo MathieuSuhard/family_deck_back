@@ -1,3 +1,5 @@
+-- Deploy family_deck:viewsFamily to pg
+
 BEGIN;
 
 CREATE VIEW  family_with_member_and_roles AS
@@ -11,4 +13,4 @@ JOIN role
 	ON "family_has_member_has_role"."family_has_member_has_role_role_id" = "role"."role_id"
 ;
 
-COMMIT; -- fin de la transaction
+COMMIT;

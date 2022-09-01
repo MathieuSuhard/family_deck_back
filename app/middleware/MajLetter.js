@@ -3,6 +3,9 @@ module.exports = {
 
     MajFirstLetter(a) { return (`${a}`).charAt(0).toUpperCase() + a.slice(1); },
 
-    minFirstLetter(a) { return (`${a}`).toLowerCase(); },
-
+    minFirstLetter(a) {
+        const space = a.replace(/ /g, '');
+        const minFirst = space.charAt(0).toLowerCase() + space.slice(1);
+        return minFirst;
+    },
 };
