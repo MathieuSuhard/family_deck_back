@@ -24,7 +24,7 @@ module.exports = {
     },
 
     async findByPkAllItems(todolistId) {
-        const result = await client.query('SELECT * FROM item_of_todolist WHERE item_todolist_id = $1', [todolistId]);
+        const result = await client.query('SELECT * FROM item_of_todolist WHERE item_todolist_id = $1 ORDER BY item_status ASC', [todolistId]);
         if (result.rowCount === 0) {
             return null;
         }
